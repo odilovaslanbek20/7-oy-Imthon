@@ -1,13 +1,15 @@
+import Add from '../../components/AddToCards/AddToCards'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 
-function BlogPages() {
+function AddToPages() {
 	return (
 		<>
 		 <Header/>
+     <Add/>
 		 <Footer/>
 		</>
 	)
 }
 
-export default BlogPages
+export default AddToPages

@@ -3,11 +3,11 @@ import { FaBarsStaggered, FaXmark } from 'react-icons/fa6'
 import { FiShoppingCart } from 'react-icons/fi'
 import { RiLogoutCircleRLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
-import AuthModal from '../Auth/Register'
+// import AuthModal from '../Auth/Register'
 
 function Header() {
 	const [menu, setMenu] = useState(false)
-	const [modalOpen, setModalOpen] = useState(false)
+	// const [modalOpen, setModalOpen] = useState(false)
 
 	return (
 		<>
@@ -34,7 +34,7 @@ function Header() {
 
 					<div className='flex items-center gap-[30px]'>
 						<Link
-							to='/add'
+							to='/addCards'
 							className='flex items-center gap-8 max-[380px]:gap-[20px]'
 						>
 							<div className='relative cursor-pointer'>
@@ -46,7 +46,7 @@ function Header() {
 						</Link>
 
 						<div
-							onClick={() => setModalOpen(true)}
+							// onClick={() => setModalOpen(true)}
 							className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
 						>
 							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
@@ -61,7 +61,7 @@ function Header() {
 						/>
 					</div>
 
-					<AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} />
+					{/* <AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} /> */}
 				</div>
 			</header>
 
@@ -94,7 +94,7 @@ function Header() {
 					<div
 						onClick={() => {
 							setMenu(false)
-							setModalOpen(true) 
+							// setModalOpen(true) 
 						}}
 						className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 					>

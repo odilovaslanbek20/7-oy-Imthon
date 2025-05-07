@@ -1,16 +1,26 @@
 import { useParams } from 'react-router-dom'
 import useGetData from '../../hooks/GetHooks'
 import React, { useState } from 'react'
+import { GoHeart } from 'react-icons/go'
+import formData from '../AddToCards/AddToCards'
+import usePostHooks from '../../hooks/PostHooks'
 
 function CardsDetails() {
 	const { id } = useParams()
 	const url = import.meta.env.VITE_API_URL
 	const [quantity, setQuantity] = useState(1)
-	const [size, setSize] = useState('S')
 
-	const { data, loading, error } = useGetData(`${url}/${id}`)
+	const { data, loading, error } = useGetData(`${url}/products/${id}`)
 
-	if (loading) {
+	const { response, error: error2, postData, loading: loading2 } = usePostHooks()
+
+	const handleClick = () => {
+		postData(`${url}/carts/add`, formData)
+	}
+
+	console.log(response);
+
+	if (loading || loading2) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<div className='w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin'></div>
@@ -18,7 +28,7 @@ function CardsDetails() {
 		)
 	}
 
-	if (error) {
+	if (error || error2) {
 		return (
 			<div className='flex items-center justify-center h-screen px-4'>
 				<div className='bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg shadow-md w-full max-w-md text-center'>
@@ -29,116 +39,134 @@ function CardsDetails() {
 		)
 	}
 
-	console.log(data)
-
-
-	const sizes = ['S', 'M', 'L', 'XL']
-
 	return (
-		<section className='max-w-[1211px] mx-auto my-[50px] px-4'>
-			<div className='flex flex-col lg:flex-row gap-10 max-w-6xl mx-auto p-10 text-gray-800'>
-				<div className='flex flex-col lg:flex-row gap-6'>
-					<div className='flex lg:flex-col gap-4'>
-						{['thumb1.png', 'thumb2.png', 'thumb3.png', 'thumb4.png'].map(
-							(src, i) => (
-								<img
-									key={i}
-									src='../../../public/cardsImg.svg'
-									alt={`Thumb ${i}`}
-									className={`w-16 h-16 border ${
-										i === 1 ? 'border-green-500' : ''
-									} rounded-md object-cover cursor-pointer`}
-								/>
-							)
-						)}
-					</div>
-
-					<div className='w-full max-w-md'>
-						<img
-							src='../../../public/cardsImg.svg'
-							alt='Main Product'
-							className='w-full h-auto rounded-md shadow-md'
-						/>
-					</div>
+		<section className='max-w-[1200px] mx-auto my-12 px-4'>
+			<div className='flex max-[900px]:flex-col gap-10'>
+				<div className='flex rounded-md shadow-md  justify-center'>
+					<img
+						src={data?.images[0]}
+						alt='Main Product'
+						className='w-[573px] h-auto bg-contain '
+					/>
 				</div>
 
-				<div className='flex-1 space-y-4'>
-					<h1 className='text-3xl font-bold'>Barberton Daisy</h1>
-					<p className='text-green-600 text-2xl font-semibold'>$119.00</p>
-
-					<div className='flex items-center gap-1 text-yellow-500'>
-						{'⭐⭐⭐⭐☆'.split('').map((star, i) => (
-							<span key={i}>{star}</span>
-						))}
-						<span className='ml-2 text-sm text-gray-600'>
-							19 Customer Review
-						</span>
+				<div className='w-full lg:w-1/2 space-y-4'>
+					<h1 className='text-2xl sm:text-3xl font-bold text-gray-900'>
+						{data?.title}
+					</h1>
+					<div className='flex items-center gap-3'>
+						<p className='text-xl sm:text-2xl text-green-600 font-semibold'>
+							${data?.price}
+						</p>
+						<p className='text-sm text-gray-400 line-through'>
+							${(data?.price / (1 - data?.discountPercentage / 100)).toFixed(2)}
+						</p>
+						<p className='text-sm text-red-500 font-medium'>
+							-{data?.discountPercentage}% OFF
+						</p>
 					</div>
 
-					<p className='text-gray-700'>
-						The ceramic cylinder planters come with a wooden stand to help
-						elevate your plants off the ground.
-					</p>
-
-					<div>
-						<p className='font-semibold mb-2'>Size:</p>
-						<div className='flex gap-2'>
-							{sizes.map(s => (
-								<button
-									key={s}
-									onClick={() => setSize(s)}
-									className={`w-10 h-10 rounded-full border ${
-										size === s
-											? 'border-green-500 text-green-600 font-bold'
-											: ''
-									}`}
-								>
-									{s}
-								</button>
-							))}
-						</div>
+					<div className='flex flex-wrap gap-4 text-sm text-gray-600'>
+						<p>⭐ {data?.rating}</p>
+						<p>Stock: {data?.stock}</p>
+						<p>Status: {data?.availabilityStatus}</p>
 					</div>
 
-					<div className='flex items-center gap-4 mt-4'>
-						<div className='flex items-center gap-2'>
+					<p className='text-gray-700 leading-relaxed'>{data?.description}</p>
+
+					<div className='text-sm text-gray-600 space-y-1'>
+						<p>
+							Dimensions: {data?.dimensions?.width}cm ×{' '}
+							{data?.dimensions?.height}cm × {data?.dimensions?.depth}cm
+						</p>
+						<p>Weight: {data?.weight}g</p>
+					</div>
+
+					<div className='flex max-[1120px]:flex-col max-[900px]:flex-row max-[530px]:flex-col justify-between max-[470px]:justify-center gap-4 mt-6'>
+						<div className='flex items-center overflow-hidden w-max'>
 							<button
 								onClick={() => setQuantity(Math.max(1, quantity - 1))}
-								className='w-8 h-8 flex items-center justify-center border rounded-full text-xl'
+								className='px-4 cursor-pointer rounded-full py-2 bg-green-600 hover:bg-green-500 transition text-[#fff] text-[18px] font-medium'
 							>
-								-
+								–
 							</button>
-							<span>{quantity}</span>
+							<span className='px-6 font-bold py-2 text-base bg-white text-gray-800'>
+								{quantity}
+							</span>
 							<button
 								onClick={() => setQuantity(quantity + 1)}
-								className='w-8 h-8 flex items-center justify-center border rounded-full text-xl'
+								className='px-4 cursor-pointer rounded-full py-2 bg-green-600 hover:bg-green-500 transition text-[#fff] text-[18px] font-medium'
 							>
 								+
 							</button>
 						</div>
 
-						<button className='bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition'>
-							BUY NOW
-						</button>
-						<button className='border border-green-600 text-green-600 px-6 py-2 rounded-md hover:bg-green-50 transition'>
-							ADD TO CART
-						</button>
-						<button className='border p-2 rounded-md text-green-600 hover:bg-green-50 transition'>
-							♡
-						</button>
-					</div>
-
-					<p className='text-sm text-gray-500 mt-4'>SKU: 1995751877966</p>
-					<p className='text-sm text-gray-500'>Categories: Potter Plants</p>
-					<p className='text-sm text-gray-500'>Tags: Home, Garden, Plants</p>
-
-					<div className='flex items-center gap-3 mt-4 text-sm text-gray-600'>
-						<span>Share this products:</span>
-						<span>📘</span>
-						<span>🐦</span>
-						<span>💼</span>
-						<span>✉️</span>
+						<div className='flex flex-wrap gap-3'>
+							<button className='bg-green-600  cursor-pointer text-white px-5 py-2 rounded-md hover:bg-green-700 transition text-sm sm:text-base'>
+								BUY NOW
+							</button>
+							<button onClick={() => handleClick()} className='border border-green-600 cursor-pointer text-green-600 px-5 py-2 rounded-md hover:bg-green-50 transition text-sm sm:text-base'>
+								ADD TO CART
+							</button>
+							<button className='border border-green-600 cursor-pointer text-green-600 px-5 py-2 rounded-md hover:bg-green-50 transition text-sm sm:text-base'>
+								<GoHeart />
+							</button>
+						</div>
+						
 					</div>
 				</div>
+			</div>
+			<div className='mt-8 bg-gray-50 p-5 rounded-xl shadow-sm max-[470px]:flex max-[470px]:justify-center max-[470px]:items-center max-[470px]:flex-col'>
+				<h2 className='text-lg font-semibold text-gray-800 mb-4'>
+					Mahsulot tafsilotlari
+				</h2>
+
+				<div className='grid max-[470px]:grid-cols-1 max-[470px]:text-center grid-cols-2 gap-y-2 gap-x-6 text-sm text-gray-700'>
+					<p>
+						<span className='font-medium'>SKU:</span> {data?.sku}
+					</p>
+					<p>
+						<span className='font-medium'>Barcode:</span> {data?.meta?.barcode}
+					</p>
+					<p>
+						<span className='font-medium'>Brand:</span> {data?.brand}
+					</p>
+					<p>
+						<span className='font-medium'>Category:</span> {data?.category}
+					</p>
+					<p>
+						<span className='font-medium'>Tags:</span> {data?.tags?.join(', ')}
+					</p>
+					<p>
+						<span className='font-medium'>Min. Order Qty:</span>{' '}
+						{data?.minimumOrderQuantity}
+					</p>
+					<p>
+						<span className='font-medium'>Shipping:</span>{' '}
+						{data?.shippingInformation}
+					</p>
+					<p>
+						<span className='font-medium'>Return Policy:</span>{' '}
+						{data?.returnPolicy}
+					</p>
+					<p>
+						<span className='font-medium'>Warranty:</span>{' '}
+						{data?.warrantyInformation}
+					</p>
+				</div>
+
+				{data?.meta?.qrCode && (
+					<div className='mt-6 flex items-center justify-center sm:justify-start'>
+						<div className='text-center'>
+							<img
+								src={data.meta.qrCode}
+								alt='QR Code'
+								className='w-24 h-24 object-contain mx-auto'
+							/>
+							<p className='text-xs text-gray-500 mt-1'>QR kodni skanerlang</p>
+						</div>
+					</div>
+				)}
 			</div>
 		</section>
 	)

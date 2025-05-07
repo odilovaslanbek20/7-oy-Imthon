@@ -7,6 +7,8 @@ import { FaXmark } from 'react-icons/fa6'
 import { FcLike } from 'react-icons/fc'
 import useGetData from '../../hooks/GetHooks'
 import { useState } from 'react'
+import usePostHooks from '../../hooks/PostHooks'
+import formData from '../AddToCards/AddToCards'
 
 function Cards() {
 	const [like, setLike] = useState(false)
@@ -16,23 +18,31 @@ function Cards() {
 
 	const url = import.meta.env.VITE_API_URL
 
-	const { data, loading, error } = useGetData(url)
+	const { data, loading, error } = useGetData(`${url}/products`)
 	const {
 		data: categories,
 		loading: loading1,
 		error: error1,
-	} = useGetData(`${url}/categories`)
+	} = useGetData(`${url}/products/categories`)
 
 	const cards = data?.products || []
 
-	if (loading || loading1) {
+	const { response, error: error2, postData, loading: loading2 } = usePostHooks()
+
+	const handleClick = () => {
+		postData(`${url}/carts/add`, formData)
+	}
+
+	console.log(response);
+
+	if (loading || loading1 || loading2) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<div className='w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin'></div>
 			</div>
 		)
 	}
-	if (error || error1) {
+	if (error || error1 || error2) {
 		return (
 			<div className='flex items-center justify-center h-screen px-4'>
 				<div className='bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg shadow-md w-full max-w-md text-center'>
@@ -75,7 +85,10 @@ function Cards() {
 									: 'text-[#3D3D3D]'
 							}`}
 						>
-							<span className='relative w-fit inline-block'>
+							<span
+								onClick={() => setModal(false)}
+								className='relative w-fit inline-block'
+							>
 								All
 								<span
 									className={`absolute left-0 -bottom-1 h-[2px] w-full origin-left transition-transform duration-300 ${
@@ -97,7 +110,10 @@ function Cards() {
 											: 'text-[#3D3D3D]'
 									}`}
 								>
-									<span className='relative w-fit inline-block'>
+									<span
+										onClick={() => setModal(false)}
+										className='relative w-fit inline-block'
+									>
 										{category.name}
 										<span
 											className={`absolute left-0 -bottom-1 h-[2px] w-full origin-left transition-transform duration-300 ${
@@ -127,16 +143,58 @@ function Cards() {
 							Categories
 						</h2>
 						<div className='space-y-3'>
-							{categories?.map((category, i) => (
-								<div key={i}>
+							<button
+								onClick={() => setSelectedCategory('')}
+								className={`group block font-medium cursor-pointer transition-all ${
+									selectedCategory === ''
+										? 'text-[#46A358] font-semibold'
+										: 'text-[#3D3D3D]'
+								}`}
+							>
+								<span
+									onClick={() => setModal(false)}
+									className='relative w-fit inline-block hover:text-[#46A358] transition'
+								>
+									All
 									<span
-										tabIndex={0}
-										className='block text-[#3D3D3D] font-medium hover:text-[#46A358] focus:text-[#46A358] hover:font-semibold focus:font-semibold cursor-pointer transition-all'
+										className={`absolute left-0 -bottom-1 h-[2px] w-full origin-left transition-transform duration-300 ${
+											selectedCategory === ''
+												? 'scale-x-100 bg-[#46A358]'
+												: 'scale-x-0'
+										}`}
+									></span>
+								</span>
+							</button>
+							{categories?.map((category, i) => (
+								<div className='group relative w-fit' key={i}>
+									<button
+										onClick={() => {
+											setSelectedCategory(category.name)
+											setModal(false)
+										}}
+										className={`relative text-[#3D3D3D] font-medium transition-all 
+        ${
+					selectedCategory === category.name
+						? 'text-[#46A358] font-semibold'
+						: ''
+				} 
+        hover:text-[#46A358] focus:text-[#46A358] hover:font-semibold focus:font-semibold
+        outline-none`}
 									>
-										{category?.name}
-									</span>
+										<span className='relative inline-block'>
+											{category?.name}
+											<span
+												className={`absolute left-0 -bottom-1 h-[2px] inline-block origin-left transition-transform duration-300
+            ${
+							selectedCategory === category.name
+								? 'scale-x-100 bg-[#46A358] w-full'
+								: 'scale-x-0 bg-[#46A358] w-full'
+						}`}
+											></span>
+										</span>
+									</button>
 								</div>
-							))}
+							))} 
 						</div>
 					</div>
 				</div>
@@ -167,7 +225,7 @@ function Cards() {
 										{like ? <FcLike size={20} /> : <GoHeart size={20} />}
 									</button>
 									<button className='hover:text-green-600 transition w-[40px] h-[40px] border rounded flex items-center justify-center cursor-pointer bg-[#fff]'>
-										<AiOutlineShoppingCart size={20} />
+										<AiOutlineShoppingCart onClick={() => handleClick()} size={20} />
 									</button>
 								</div>
 
@@ -184,7 +242,7 @@ function Cards() {
 									<p className='text-base text-gray-600'>${card?.price}</p>
 									<Link
 										to={`${card.id}`}
-										className='mt-2 inline-block bg-black text-white text-center py-2 px-4 rounded-lg hover:bg-gray-800 transition'
+										className='mt-2 inline-block bg-green-600 text-white text-center py-2 px-4 rounded-lg hover:bg-green-500 transition'
 									>
 										Lean more
 									</Link>
