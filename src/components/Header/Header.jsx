@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { FaBarsStaggered, FaXmark } from 'react-icons/fa6'
 import { FiShoppingCart } from 'react-icons/fi'
 import { RiLogoutCircleRLine } from 'react-icons/ri'
-import { RxMagnifyingGlass } from 'react-icons/rx'
 import { Link } from 'react-router-dom'
+import AuthModal from '../Auth/Register'
 
 function Header() {
 	const [menu, setMenu] = useState(false)
+	const [modalOpen, setModalOpen] = useState(false)
 
 	return (
 		<>
@@ -15,6 +16,7 @@ function Header() {
 					<Link to='/'>
 						<img src='Logo.svg' alt='logotip' className='w-[140px]' />
 					</Link>
+
 					<div className='flex items-center gap-[50px] max-[670px]:hidden'>
 						<Link
 							to='/'
@@ -29,8 +31,8 @@ function Header() {
 							Blog
 						</Link>
 					</div>
+
 					<div className='flex items-center gap-[30px]'>
-						<RxMagnifyingGlass className='text-[25px] cursor-pointer' />
 						<Link
 							to='/add'
 							className='flex items-center gap-8 max-[380px]:gap-[20px]'
@@ -42,21 +44,24 @@ function Header() {
 								<FiShoppingCart className='text-[20px]' />
 							</div>
 						</Link>
-							<div
-								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
-							>
-								<RiLogoutCircleRLine
-									className={`text-[20px] text-[#fff]`}
-								/>
-								<p className='text-[#fff] font-medium text-[16px] truncate'>
-									Login
-								</p>
-							</div>
+
+						<div
+							onClick={() => setModalOpen(true)}
+							className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
+						>
+							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+							<p className='text-[#fff] font-medium text-[16px] truncate'>
+								Login
+							</p>
+						</div>
+
 						<FaBarsStaggered
 							onClick={() => setMenu(true)}
 							className='text-[20px] cursor-pointer hidden max-[670px]:block'
 						/>
 					</div>
+
+					<AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} />
 				</div>
 			</header>
 
@@ -69,6 +74,7 @@ function Header() {
 					onClick={() => setMenu(false)}
 					className='text-[#fff] text-[30px] absolute right-[10px] cursor-pointer top-[10px]'
 				/>
+
 				<div className='flex flex-col items-center mt-[50px] gap-[20px]'>
 					<Link
 						to='/'
@@ -78,29 +84,25 @@ function Header() {
 						Home
 					</Link>
 					<Link
-						to='#'
+						to='/blog'
 						onClick={() => setMenu(false)}
 						className='text-[#fff] text-[16px]'
 					>
 						Blog
 					</Link>
+
 					<div
 						onClick={() => {
 							setMenu(false)
+							setModalOpen(true) 
 						}}
 						className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 					>
-						<RiLogoutCircleRLine
-							className={`text-[20px] text-[#fff]`}
-						/>
-						<p className='text-[#fff] truncate'>
-							Login
-						</p>
+						<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+						<p className='text-[#fff] truncate'>Login</p>
 					</div>
 				</div>
 			</div>
-
-		
 		</>
 	)
 }

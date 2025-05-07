@@ -1,25 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
 const useGetData = (url) => {
-	const [data, setData] = useState([])
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState(null)
-	
-	useEffect(() => {
-		const fetchData = async () => {
-			setLoading(true)
-			try {
-				const res = await fetch(url)
-				setData(res?.data)
-			} catch (error) {
-				setError(error)
-			} finally {
-				setLoading(false)}
-		}
-		fetchData()
-	}, [url]);
-
-	return { data, loading, error }
+  return useQuery({
+    queryKey: [url],
+    queryFn: async () => {
+      const res = await axios.get(url)
+      return res.data
+    },
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false
+  })
 }
 
 export default useGetData
