@@ -10,7 +10,7 @@ import { useState } from 'react'
 import usePostHooks from '../../hooks/PostHooks'
 
 function Cards() {
-	const [like, setLike] = useState(false)
+	const [likedCards, setLikedCards] = useState({})
 	const [modal, setModal] = useState(false)
 	const [value, setValue] = useState('')
 	const [notification, setNotification] = useState(false)
@@ -49,7 +49,7 @@ function Cards() {
 			setNotification1(true)
 			setTimeout(() => {
 				setNotification1(false)
-			}, 2000);
+			}, 2000)
 		} catch (err) {
 			console.error(err)
 			setNotification({ type: 'error', message: 'Something went wrong' })
@@ -75,6 +75,14 @@ function Cards() {
 			: true
 		return search && category
 	})
+
+	const toggleLike = (id) => {
+		setLikedCards(prev => ({
+			...prev,
+			[id]: !prev[id]
+		}))
+	}
+	
 
 	return (
 		<section className='max-w-[1211px] m-auto my-[50px] max-[1270px]:mx-[20px]'>
@@ -102,7 +110,8 @@ function Cards() {
 
 			{notification1 && (
 				<div
-					className={`fixed z-50 top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg flex items-center justify-between bg-green-500 min-w-[300px] max-w-md`}>
+					className={`fixed z-50 top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg flex items-center justify-between bg-green-500 min-w-[300px] max-w-md`}
+				>
 					<span className='text-sm text-[#fff] font-medium'>
 						✅ Maxsulot savatchaga qo'shildi...
 					</span>
@@ -267,11 +276,16 @@ function Cards() {
 							>
 								<div className='absolute top-3 left-3 right-3 flex justify-between gap-3 text-gray-600'>
 									<button
-										onClick={() => setLike(true)}
+										onClick={() => toggleLike(card.id)}
 										className='hover:text-red-500 cursor-pointer transition w-[40px] h-[40px] border rounded flex items-center justify-center bg-[#fff]'
 									>
-										{like ? <FcLike size={20} /> : <GoHeart size={20} />}
+										{likedCards[card.id] ? (
+											<FcLike size={20} />
+										) : (
+											<GoHeart size={20} />
+										)}
 									</button>
+
 									<button
 										onClick={() => handleClick(card?.id)}
 										disabled={loadingCards[card.id]}
