@@ -5,6 +5,7 @@ import DetailsPage from './pages/Details/Details'
 import AddToPages from './pages/AddTo/AddTo'
 import RegisterPage from './pages/AuthPage/Register'
 import AddNewPages from './pages/AddTo/NewProducts'
+import NotError from './pages/NotFaund/NotFaund'
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path='/addCards' element={<AddToPages />} />
         <Route path='/addNewCards' element={<AddNewPages />} />
         <Route path='/auth' element={<RegisterPage />} />
+        
+        <Route path='*' element={<NotError />} />
       </Routes>
     </>
   )
