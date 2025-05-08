@@ -13,7 +13,10 @@ function Cards() {
 	const [like, setLike] = useState(false)
 	const [modal, setModal] = useState(false)
 	const [value, setValue] = useState('')
+	const [notification, setNotification] = useState(false)
+	const [notification1, setNotification1] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState('')
+	const [loadingCards, setLoadingCards] = useState({})
 
 	const url = import.meta.env.VITE_API_URL
 
@@ -26,31 +29,33 @@ function Cards() {
 
 	const cards = data?.products || []
 
-	const formData = {
-		userId: 1,
-		products: [
-			{
-				id: Math.floor(Math.random() * 100),
-				quantity: Math.floor(Math.random() * 5) + 1,
-			},
-			{
-				id: Math.floor(Math.random() * 100),
-				quantity: Math.floor(Math.random() * 5) + 1,
-			},
-		],
-	}
+	const { response, error: error2, postData } = usePostHooks()
 
-	const {
-		response,
-		error: error2,
-		postData,
-		loading: loading2,
-	} = usePostHooks()
+	const handleClick = async id => {
+		setLoadingCards(prev => ({ ...prev, [id]: true }))
 
-	const handleClick = (id, quantity) => {
-		console.log(id,    quantity);
-		
-		postData(`${url}/carts/add`, formData)
+		const formData = {
+			userId: id,
+			products: [
+				{
+					id: id,
+					quantity: Math.floor(Math.random() * 5) + 1,
+				},
+			],
+		}
+
+		try {
+			await postData(`${url}/carts/add`, formData)
+			setNotification1(true)
+			setTimeout(() => {
+				setNotification1(false)
+			}, 2000);
+		} catch (err) {
+			console.error(err)
+			setNotification({ type: 'error', message: 'Something went wrong' })
+		} finally {
+			setLoadingCards(prev => ({ ...prev, [id]: false }))
+		}
 	}
 
 	console.log(response)
@@ -59,16 +64,6 @@ function Cards() {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<div className='w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin'></div>
-			</div>
-		)
-	}
-	if (error || error1 || error2) {
-		return (
-			<div className='flex items-center justify-center h-screen px-4'>
-				<div className='bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg shadow-md w-full max-w-md text-center'>
-					<h2 className='text-xl font-semibold mb-2'>Xatolik!</h2>
-					<p>{error.message || error1.message}</p>
-				</div>
 			</div>
 		)
 	}
@@ -83,6 +78,43 @@ function Cards() {
 
 	return (
 		<section className='max-w-[1211px] m-auto my-[50px] max-[1270px]:mx-[20px]'>
+			{notification && (
+				<div
+					className={`fixed z-50 top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg flex items-center justify-between min-w-[300px] max-w-md ${
+						notification.type === 'success'
+							? 'bg-green-500'
+							: notification.type === 'error'
+							? 'bg-red-500'
+							: 'bg-blue-500'
+					} text-white`}
+				>
+					<span className='text-sm font-medium'>
+						{error?.message || error1?.message || error2?.message}
+					</span>
+					<button
+						onClick={() => setNotification(null)}
+						className='ml-4 text-white text-lg leading-none focus:outline-none hover:text-gray-200'
+					>
+						&times;
+					</button>
+				</div>
+			)}
+
+			{notification1 && (
+				<div
+					className={`fixed z-50 top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg flex items-center justify-between bg-green-500 min-w-[300px] max-w-md`}>
+					<span className='text-sm text-[#fff] font-medium'>
+						✅ Maxsulot savatchaga qo'shildi...
+					</span>
+					<button
+						onClick={() => setNotification1(false)}
+						className='ml-4 text-white cursor-pointer text-lg leading-none focus:outline-none hover:text-gray-200'
+					>
+						&times;
+					</button>
+				</div>
+			)}
+
 			<div className='flex items-start gap-[20px] max-[850px]:flex-col'>
 				<div className='flex items-center justify-between gap-3 w-full min-[850px]:hidden'>
 					<p className='text-lg font-semibold'>Categories</p>
@@ -228,7 +260,7 @@ function Cards() {
 						</form>
 					</div>
 					<div className='grid grid-cols-3 max-[500px]:grid-cols-1 max-[1070px]:grid-cols-2 gap-6'>
-						{filteredCards?.map((card) => (
+						{filteredCards?.map(card => (
 							<div
 								key={card.id}
 								className='relative bg-white  shadow-md rounded-xl overflow-hidden transition hover:shadow-lg'
@@ -241,12 +273,19 @@ function Cards() {
 										{like ? <FcLike size={20} /> : <GoHeart size={20} />}
 									</button>
 									<button
-										onClick={() =>
-											handleClick(card?.id, card?.products)
-										}
-										className='hover:text-green-600 transition w-[40px] h-[40px] border rounded flex items-center justify-center cursor-pointer bg-[#fff]'
+										onClick={() => handleClick(card?.id)}
+										disabled={loadingCards[card.id]}
+										className={`transition w-[40px] h-[40px] border rounded flex items-center justify-center cursor-pointer bg-[#fff] ${
+											loadingCards[card.id]
+												? 'opacity-50 cursor-not-allowed'
+												: 'hover:text-green-600'
+										}`}
 									>
+										{loadingCards[card.id] ? (
+											<div className='w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin'></div>
+										) : (
 											<AiOutlineShoppingCart size={20} />
+										)}
 									</button>
 								</div>
 

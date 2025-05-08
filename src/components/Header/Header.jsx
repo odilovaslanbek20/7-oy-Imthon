@@ -8,23 +8,32 @@ import AuthModal from '../Auth/Register'
 function Header() {
 	const [menu, setMenu] = useState(false)
 	const [modalOpen, setModalOpen] = useState(false)
-	const [token, setToken] = useState("")
-	const [name, setName] = useState("Login")
+	const [token, setToken] = useState('')
+	const [name, setName] = useState('Login')
 
 	useEffect(() => {
-		const tokenFromLocalStorage = localStorage.getItem('token')
-		setToken(tokenFromLocalStorage)
+		// Function to check localStorage for token and userName
+		const checkLocalStorage = () => {
+			const tokenFromLocalStorage = localStorage.getItem('token')
+			setToken(tokenFromLocalStorage)
 
-		if (tokenFromLocalStorage) {
-			const userNameFromLocalStorage = localStorage.getItem("userName")
-			setName(userNameFromLocalStorage || "Login")
-		} else {
-			setName("Login")
+			if (tokenFromLocalStorage) {
+				const userNameFromLocalStorage = localStorage.getItem('userName')
+				setName(userNameFromLocalStorage || 'Login')
+			} else {
+				setName('Login')
+			}
 		}
-	}, [token]) 
 
-	console.log(token);
-	
+		// Check localStorage once when the component mounts
+		checkLocalStorage()
+
+		// Set an interval to check localStorage every 1 second
+		const intervalId = setInterval(checkLocalStorage, 1000)
+
+		// Cleanup the interval when the component unmounts
+		return () => clearInterval(intervalId)
+	}, [])
 
 	return (
 		<>
@@ -35,18 +44,43 @@ function Header() {
 					</Link>
 
 					<div className='flex items-center gap-[50px] max-[670px]:hidden'>
-						<Link
-							to='/'
-							className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-						>
-							Home
-						</Link>
-						<Link
-							to='/blog'
-							className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-						>
-							Blog
-						</Link>
+						{token ? (
+							<>
+								<Link
+									to='/'
+									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+								>
+									Home
+								</Link>
+								<Link
+									to='/blog'
+									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+								>
+									Blog
+								</Link>
+								<Link
+									to='/addNewCards'
+									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+								>
+									Add Products
+								</Link>
+							</>
+						) : (
+							<>
+								<Link
+									to='/'
+									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+								>
+									Home
+								</Link>
+								<Link
+									to='/blog'
+									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+								>
+									Blog
+								</Link>
+							</>
+						)}
 					</div>
 
 					<div className='flex items-center gap-[30px]'>
@@ -68,7 +102,7 @@ function Header() {
 						>
 							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
 							<p className='text-[#fff] font-medium text-[16px] truncate'>
-							{token ? name : "Login"}
+								{token ? name : 'Login'}
 							</p>
 						</div>
 
@@ -93,32 +127,53 @@ function Header() {
 				/>
 
 				<div className='flex flex-col items-center mt-[50px] gap-[20px]'>
-					<Link
-						to='/'
-						onClick={() => setMenu(false)}
-						className='text-[#fff] text-[16px]'
-					>
-						Home
-					</Link>
-					<Link
-						to='/blog'
-						onClick={() => setMenu(false)}
-						className='text-[#fff] text-[16px]'
-					>
-						Blog
-					</Link>
+					{token ? (
+						<>
+							<Link
+								to='/'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Home
+							</Link>
+							<Link
+								to='/blog'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Blog
+							</Link>
+							<Link
+								to='/addNewCards'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Add Products
+							</Link>
+						</>
+					) : (
+						<>
+							<Link
+								to='/'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Home
+							</Link>
+							<Link
+								to='/blog'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Blog
+							</Link>
+						</>
+					)}
 
 					<div
 						onClick={() => {
 							setMenu(false)
-							setModalOpen(true) 
+							setModalOpen(true)
 						}}
 						className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 					>
 						<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
-						<p className='text-[#fff] truncate'>
-							{token ? name : "Login"}
-						</p>
+						<p className='text-[#fff] truncate'>{token ? name : 'Login'}</p>
 					</div>
 				</div>
 			</div>
