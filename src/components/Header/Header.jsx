@@ -23,6 +23,9 @@ function Header() {
 		}
 	}, [token]) 
 
+	console.log(token);
+	
+
 	return (
 		<>
 			<header className='max-[1270px]:mx-[20px] max-w-[1211px] m-auto mt-[25px] mb-[12px] pb-[18px] border-b-[1px] border-[rgba(70,163,88,0.5)]'>

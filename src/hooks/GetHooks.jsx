@@ -2,7 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 const useGetData = (url) => {
-  return useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: [url],
     queryFn: async () => {
       const res = await axios.get(url)
@@ -10,8 +15,15 @@ const useGetData = (url) => {
     },
     staleTime: 5 * 60 * 1000,
     cacheTime: 10 * 60 * 1000,
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
+
+  return {
+    data,
+    loading: isLoading,
+    error: isError ? error : null,
+    isError
+  }
 }
 
 export default useGetData
