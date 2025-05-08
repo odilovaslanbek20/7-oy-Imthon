@@ -2,8 +2,7 @@ import { useParams } from 'react-router-dom'
 import useGetData from '../../hooks/GetHooks'
 import React, { useState } from 'react'
 import { GoHeart } from 'react-icons/go'
-import formData from '../AddToCards/AddToCards'
-import usePostHooks from '../../hooks/PostHooks'
+// import usePostHooks from '../../hooks/PostHooks'
 
 function CardsDetails() {
 	const { id } = useParams()
@@ -12,15 +11,15 @@ function CardsDetails() {
 
 	const { data, loading, error } = useGetData(`${url}/products/${id}`)
 
-	const { response, error: error2, postData, loading: loading2 } = usePostHooks()
+	// const { response, error: error2, postData, loading: loading2 } = usePostHooks()
 
-	const handleClick = () => {
-		postData(`${url}/carts/add`, formData)
-	}
+	// const handleClick = () => {
+	// 	postData(`${url}/carts/add`, formData)
+	// }
 
-	console.log(response);
+	// console.log(response);
 
-	if (loading || loading2) {
+	if (loading) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<div className='w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin'></div>
@@ -28,7 +27,7 @@ function CardsDetails() {
 		)
 	}
 
-	if (error || error2) {
+	if (error) {
 		return (
 			<div className='flex items-center justify-center h-screen px-4'>
 				<div className='bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg shadow-md w-full max-w-md text-center'>
@@ -105,7 +104,7 @@ function CardsDetails() {
 							<button className='bg-green-600  cursor-pointer text-white px-5 py-2 rounded-md hover:bg-green-700 transition text-sm sm:text-base'>
 								BUY NOW
 							</button>
-							<button onClick={() => handleClick()} className='border border-green-600 cursor-pointer text-green-600 px-5 py-2 rounded-md hover:bg-green-50 transition text-sm sm:text-base'>
+							<button className='border border-green-600 cursor-pointer text-green-600 px-5 py-2 rounded-md hover:bg-green-50 transition text-sm sm:text-base'>
 								ADD TO CART
 							</button>
 							<button className='border border-green-600 cursor-pointer text-green-600 px-5 py-2 rounded-md hover:bg-green-50 transition text-sm sm:text-base'>

@@ -8,7 +8,6 @@ import { FcLike } from 'react-icons/fc'
 import useGetData from '../../hooks/GetHooks'
 import { useState } from 'react'
 import usePostHooks from '../../hooks/PostHooks'
-import formData from '../AddToCards/AddToCards'
 
 function Cards() {
 	const [like, setLike] = useState(false)
@@ -18,24 +17,45 @@ function Cards() {
 
 	const url = import.meta.env.VITE_API_URL
 
-	const { data, loading, error } = useGetData(`${url}/products`)
+	const { data, loading, error } = useGetData(`${url}/products?limit=194`)
 	const {
 		data: categories,
 		loading: loading1,
 		error: error1,
-	} = useGetData(`${url}/products/categories`)
+	} = useGetData(`${url}/products/category-list`)
 
 	const cards = data?.products || []
 
-	const { response, error: error2, postData, loading: loading2 } = usePostHooks()
+	const formData = {
+		userId: 1,
+		products: [
+			{
+				id: Math.floor(Math.random() * 100),
+				quantity: Math.floor(Math.random() * 5) + 1,
+			},
+			{
+				id: Math.floor(Math.random() * 100),
+				quantity: Math.floor(Math.random() * 5) + 1,
+			},
+		],
+	}
 
-	const handleClick = () => {
+	const {
+		response,
+		error: error2,
+		postData,
+		loading: loading2,
+	} = usePostHooks()
+
+	const handleClick = (id, quantity) => {
+		console.log(id,    quantity);
+		
 		postData(`${url}/carts/add`, formData)
 	}
 
-	console.log(response);
+	console.log(response)
 
-	if (loading || loading1 || loading2) {
+	if (loading || loading1) {
 		return (
 			<div className='flex items-center justify-center h-screen'>
 				<div className='w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin'></div>
@@ -103,21 +123,21 @@ function Cards() {
 						{categories?.map((category, i) => (
 							<div key={i}>
 								<button
-									onClick={() => setSelectedCategory(category.name)}
+									onClick={() => {
+										setSelectedCategory(category)
+										setModal(false)
+									}}
 									className={`group block font-medium cursor-pointer transition-all ${
-										selectedCategory === category.name
+										selectedCategory === category
 											? 'text-[#46A358] font-semibold'
 											: 'text-[#3D3D3D]'
 									}`}
 								>
-									<span
-										onClick={() => setModal(false)}
-										className='relative w-fit inline-block'
-									>
-										{category.name}
+									<span className='relative w-fit inline-block'>
+										{category}
 										<span
 											className={`absolute left-0 -bottom-1 h-[2px] w-full origin-left transition-transform duration-300 ${
-												selectedCategory === category.name
+												selectedCategory === category
 													? 'scale-x-100 bg-[#46A358]'
 													: 'scale-x-0'
 											}`}
@@ -169,24 +189,20 @@ function Cards() {
 								<div className='group relative w-fit' key={i}>
 									<button
 										onClick={() => {
-											setSelectedCategory(category.name)
+											setSelectedCategory(category)
 											setModal(false)
 										}}
 										className={`relative text-[#3D3D3D] font-medium transition-all 
-        ${
-					selectedCategory === category.name
-						? 'text-[#46A358] font-semibold'
-						: ''
-				} 
+        ${selectedCategory === category ? 'text-[#46A358] font-semibold' : ''} 
         hover:text-[#46A358] focus:text-[#46A358] hover:font-semibold focus:font-semibold
         outline-none`}
 									>
 										<span className='relative inline-block'>
-											{category?.name}
+											{category}
 											<span
 												className={`absolute left-0 -bottom-1 h-[2px] inline-block origin-left transition-transform duration-300
             ${
-							selectedCategory === category.name
+							selectedCategory === category
 								? 'scale-x-100 bg-[#46A358] w-full'
 								: 'scale-x-0 bg-[#46A358] w-full'
 						}`}
@@ -194,7 +210,7 @@ function Cards() {
 										</span>
 									</button>
 								</div>
-							))} 
+							))}
 						</div>
 					</div>
 				</div>
@@ -212,7 +228,7 @@ function Cards() {
 						</form>
 					</div>
 					<div className='grid grid-cols-3 max-[500px]:grid-cols-1 max-[1070px]:grid-cols-2 gap-6'>
-						{filteredCards?.map(card => (
+						{filteredCards?.map((card) => (
 							<div
 								key={card.id}
 								className='relative bg-white  shadow-md rounded-xl overflow-hidden transition hover:shadow-lg'
@@ -224,13 +240,18 @@ function Cards() {
 									>
 										{like ? <FcLike size={20} /> : <GoHeart size={20} />}
 									</button>
-									<button className='hover:text-green-600 transition w-[40px] h-[40px] border rounded flex items-center justify-center cursor-pointer bg-[#fff]'>
-										<AiOutlineShoppingCart onClick={() => handleClick()} size={20} />
+									<button
+										onClick={() =>
+											handleClick(card?.id, card?.products)
+										}
+										className='hover:text-green-600 transition w-[40px] h-[40px] border rounded flex items-center justify-center cursor-pointer bg-[#fff]'
+									>
+											<AiOutlineShoppingCart size={20} />
 									</button>
 								</div>
 
 								<img
-									src={card?.images}
+									src={card?.images[0]}
 									alt={card?.title}
 									className='w-full h-[200px] object-cover'
 								/>
@@ -241,7 +262,7 @@ function Cards() {
 									</h3>
 									<p className='text-base text-gray-600'>${card?.price}</p>
 									<Link
-										to={`${card.id}`}
+										to={`${card?.id}`}
 										className='mt-2 inline-block bg-green-600 text-white text-center py-2 px-4 rounded-lg hover:bg-green-500 transition'
 									>
 										Lean more

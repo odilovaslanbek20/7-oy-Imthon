@@ -1,13 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaBarsStaggered, FaXmark } from 'react-icons/fa6'
 import { FiShoppingCart } from 'react-icons/fi'
 import { RiLogoutCircleRLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
-// import AuthModal from '../Auth/Register'
+import AuthModal from '../Auth/Register'
 
 function Header() {
 	const [menu, setMenu] = useState(false)
-	// const [modalOpen, setModalOpen] = useState(false)
+	const [modalOpen, setModalOpen] = useState(false)
+	const [token, setToken] = useState("")
+	const [name, setName] = useState("Login")
+
+	useEffect(() => {
+		const tokenFromLocalStorage = localStorage.getItem('token')
+		setToken(tokenFromLocalStorage)
+
+		if (tokenFromLocalStorage) {
+			const userNameFromLocalStorage = localStorage.getItem("userName")
+			setName(userNameFromLocalStorage || "Login")
+		} else {
+			setName("Login")
+		}
+	}, [token]) 
 
 	return (
 		<>
@@ -46,12 +60,12 @@ function Header() {
 						</Link>
 
 						<div
-							// onClick={() => setModalOpen(true)}
+							onClick={() => setModalOpen(true)}
 							className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
 						>
 							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
 							<p className='text-[#fff] font-medium text-[16px] truncate'>
-								Login
+							{token ? name : "Login"}
 							</p>
 						</div>
 
@@ -61,7 +75,7 @@ function Header() {
 						/>
 					</div>
 
-					{/* <AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} /> */}
+					<AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} />
 				</div>
 			</header>
 
@@ -94,12 +108,14 @@ function Header() {
 					<div
 						onClick={() => {
 							setMenu(false)
-							// setModalOpen(true) 
+							setModalOpen(true) 
 						}}
 						className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 					>
 						<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
-						<p className='text-[#fff] truncate'>Login</p>
+						<p className='text-[#fff] truncate'>
+							{token ? name : "Login"}
+						</p>
 					</div>
 				</div>
 			</div>

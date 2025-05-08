@@ -1,15 +1,13 @@
-import Add from '../../components/AddToCards/Add'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 
-function AddToPages() {
+function RegisterPage() {
 	return (
 		<>
 		 <Header/>
-     <Add/>
 		 <Footer/>
 		</>
 	)
 }
 
-export default AddToPages
+export default RegisterPage
