@@ -155,7 +155,7 @@ const Add = () => {
 								<span>Umumiy summa:</span>
 								<span>${discountedTotal.toFixed(2)}</span>
 							</div>
-							<Link to='/addNewCards'>
+							<Link>
 								<button className='mt-4 w-full bg-[#46A358] text-white py-2 rounded-lg hover:bg-green-600 transition'>
 									To‘lovga o‘tish
 								</button>
