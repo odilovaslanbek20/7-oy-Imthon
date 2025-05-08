@@ -301,7 +301,7 @@ function Cards() {
 									</h3>
 									<p className='text-base text-gray-600'>${card?.price}</p>
 									<Link
-										to={`${card?.id}`}
+										to={`/products/${card?.id}`}
 										className='mt-2 inline-block bg-green-600 text-white text-center py-2 px-4 rounded-lg hover:bg-green-500 transition'
 									>
 										Lean more

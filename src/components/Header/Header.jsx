@@ -12,7 +12,6 @@ function Header() {
 	const [name, setName] = useState('Login')
 
 	useEffect(() => {
-		// Function to check localStorage for token and userName
 		const checkLocalStorage = () => {
 			const tokenFromLocalStorage = localStorage.getItem('token')
 			setToken(tokenFromLocalStorage)
@@ -25,13 +24,10 @@ function Header() {
 			}
 		}
 
-		// Check localStorage once when the component mounts
 		checkLocalStorage()
 
-		// Set an interval to check localStorage every 1 second
 		const intervalId = setInterval(checkLocalStorage, 1000)
 
-		// Cleanup the interval when the component unmounts
 		return () => clearInterval(intervalId)
 	}, [])
 
@@ -40,7 +36,7 @@ function Header() {
 			<header className='max-[1270px]:mx-[20px] max-w-[1211px] m-auto mt-[25px] mb-[12px] pb-[18px] border-b-[1px] border-[rgba(70,163,88,0.5)]'>
 				<div className='flex items-center justify-between'>
 					<Link to='/'>
-						<img src='Logo.svg' alt='logotip' className='w-[140px]' />
+						<img src='../../../public/Logo.svg' alt='logotip' className='w-[140px]' />
 					</Link>
 
 					<div className='flex items-center gap-[50px] max-[670px]:hidden'>
