@@ -265,7 +265,7 @@ function Cards() {
 								key={card.id}
 								className='relative bg-white  shadow-md rounded-xl overflow-hidden transition hover:shadow-lg'
 							>
-								<div className='absolute top-3 right-3 flex gap-3 text-gray-600'>
+								<div className='absolute top-3 left-3 right-3 flex justify-between gap-3 text-gray-600'>
 									<button
 										onClick={() => setLike(true)}
 										className='hover:text-red-500 cursor-pointer transition w-[40px] h-[40px] border rounded flex items-center justify-center bg-[#fff]'
