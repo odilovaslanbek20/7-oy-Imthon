@@ -11,7 +11,7 @@ function Header() {
 	const [token, setToken] = useState('')
 	const [name, setName] = useState('Login')
 
-	const navigate = useNavigate() 
+	const navigate = useNavigate()
 
 	const carts = JSON.parse(localStorage.getItem('cart'))
 	useEffect(() => {
@@ -38,7 +38,7 @@ function Header() {
 		if (token) {
 			navigate('/addCards')
 		} else {
-			setModalOpen(true) 
+			setModalOpen(true)
 		}
 	}
 
@@ -69,13 +69,19 @@ function Header() {
 
 					<div className='flex items-center gap-[30px]'>
 						<div
-							onClick={handleCartClick} 
+							onClick={handleCartClick}
 							className='flex items-center gap-8 max-[380px]:gap-[20px]'
 						>
 							<div className='relative cursor-pointer'>
 								<p className='h-[12px] w-[12px] text-[10px] absolute ml-[12px] mt-[-3px] rounded-full flex items-center justify-center text-[#fff] bg-[rgba(70,163,88,1)]'>
-									{token ? carts[0]?.products?.length : 0}
+									{token
+										? (carts &&
+												carts.length > 0 &&
+												carts[0]?.products?.length) ||
+										  0
+										: 0}
 								</p>
+
 								<FiShoppingCart className='text-[20px]' />
 							</div>
 						</div>
@@ -92,7 +98,7 @@ function Header() {
 							</Link>
 						) : (
 							<div
-								onClick={() => setModalOpen(true)} 
+								onClick={() => setModalOpen(true)}
 								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
 							>
 								<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
