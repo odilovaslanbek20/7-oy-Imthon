@@ -31,6 +31,9 @@ function Cards() {
 
 	const { response, error: error2, postData } = usePostHooks()
 
+	console.log(data);
+	
+
 	const handleClick = async id => {
 		setLoadingCards(prev => ({ ...prev, [id]: true }))
 
@@ -304,7 +307,7 @@ function Cards() {
 								</div>
 
 								<img
-									src={card?.images}
+									src={card?.thumbnail}
 									alt={card?.title}
 									className='w-full h-[200px] object-cover'
 								/>
