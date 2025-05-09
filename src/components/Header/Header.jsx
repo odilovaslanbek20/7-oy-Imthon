@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { FaBarsStaggered, FaXmark } from 'react-icons/fa6'
 import { FiShoppingCart } from 'react-icons/fi'
 import { RiLogoutCircleRLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthModal from '../Auth/Register'
 
 function Header() {
@@ -10,6 +10,8 @@ function Header() {
 	const [modalOpen, setModalOpen] = useState(false)
 	const [token, setToken] = useState('')
 	const [name, setName] = useState('Login')
+
+	const navigate = useNavigate() 
 
 	const carts = JSON.parse(localStorage.getItem('cart'))
 	useEffect(() => {
@@ -31,6 +33,14 @@ function Header() {
 
 		return () => clearInterval(intervalId)
 	}, [])
+
+	const handleCartClick = () => {
+		if (token) {
+			navigate('/addCards')
+		} else {
+			setModalOpen(true) 
+		}
+	}
 
 	return (
 		<>
@@ -58,17 +68,17 @@ function Header() {
 					</div>
 
 					<div className='flex items-center gap-[30px]'>
-						<Link
-							to='/addCards'
+						<div
+							onClick={handleCartClick} 
 							className='flex items-center gap-8 max-[380px]:gap-[20px]'
 						>
 							<div className='relative cursor-pointer'>
 								<p className='h-[12px] w-[12px] text-[10px] absolute ml-[12px] mt-[-3px] rounded-full flex items-center justify-center text-[#fff] bg-[rgba(70,163,88,1)]'>
-									{carts[0]?.products?.length}
+									{token ? carts[0]?.products?.length : 0}
 								</p>
 								<FiShoppingCart className='text-[20px]' />
 							</div>
-						</Link>
+						</div>
 
 						{token ? (
 							<Link
@@ -82,7 +92,7 @@ function Header() {
 							</Link>
 						) : (
 							<div
-								onClick={() => setModalOpen(true)}
+								onClick={() => setModalOpen(true)} // Open the modal on click
 								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
 							>
 								<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
@@ -97,10 +107,10 @@ function Header() {
 							className='text-[20px] cursor-pointer hidden max-[670px]:block'
 						/>
 					</div>
-
-					<AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} />
 				</div>
 			</header>
+
+			<AuthModal open={modalOpen} handleClose={() => setModalOpen(false)} />
 
 			<div
 				className={`${
@@ -139,7 +149,7 @@ function Header() {
 						<div
 							onClick={() => {
 								setMenu(false)
-								setModalOpen(true)
+								setModalOpen(true) // Set modal open to true here
 							}}
 							className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 						>

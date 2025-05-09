@@ -18,14 +18,12 @@ function CardsDetails() {
     )
   }
 
-  // Agar xatolik bo'lsa, to'g'ri xabarni ko'rsatish
   if (error || !data) {
     return (
       <div className='flex items-center justify-center h-screen px-4'>
         <div className='bg-red-50 border border-red-200 text-red-700 p-6 rounded-lg shadow-md w-full max-w-md text-center'>
           <h2 className='text-xl font-semibold mb-2'>Xatolik!</h2>
           <p>{error ? error.message : 'Mahsulot topilmadi.'}</p>
-          {/* Xatolikni bartaraf etgan sahifaga qaytarish */}
           <Navigate to="/404" replace />
         </div>
       </div>
@@ -34,7 +32,6 @@ function CardsDetails() {
 
   return (
     <section className='max-w-[1200px] mx-auto my-12 px-4'>
-      {/* Mahsulot ko'rinishini o'zgarishsiz qoldiramiz */}
       <div className='flex max-[900px]:flex-col gap-10'>
         <div className='flex rounded-md shadow-md justify-center'>
           <img
@@ -47,7 +44,6 @@ function CardsDetails() {
           <h1 className='text-2xl sm:text-3xl font-bold text-gray-900'>
             {data?.title}
           </h1>
-          {/* Narx va boshqa tafsilotlar */}
           <div className='flex items-center gap-3'>
             <p className='text-xl sm:text-2xl text-green-600 font-semibold'>
               ${data?.price}
@@ -62,7 +58,6 @@ function CardsDetails() {
             </p>
           </div>
 
-          {/* Mahsulot haqida batafsil ma'lumot */}
           <div className='flex flex-wrap gap-4 text-sm text-gray-600'>
             <p>⭐ {data?.rating}</p>
             <p>Stock: {data?.stock}</p>
@@ -112,8 +107,6 @@ function CardsDetails() {
           </div>
         </div>
       </div>
-
-      {/* Mahsulot tafsilotlari */}
       <div className='mt-8 bg-gray-50 p-5 rounded-xl shadow-sm max-[470px]:flex max-[470px]:justify-center max-[470px]:items-center max-[470px]:flex-col'>
         <h2 className='text-lg font-semibold text-gray-800 mb-4'>
           Mahsulot tafsilotlari

@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AddProducts from '../AddToCards/AddNewProducts';
 import Checkout from './Checout';
 import User from './User';
 
 function Account() {
-  const [ page, setPage ] = useState('checkout');
+  const [page, setPage] = useState('checkout');
+  const navigate = useNavigate(); 
 
-  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    navigate('/');
+  };
 
   return (
     <section className='max-w-[1211px] m-auto my-[50px] max-[1270px]:mx-[20px]'>
@@ -28,19 +35,25 @@ function Account() {
               Checkout
             </div>
             <div
-              onClick={() => setPage('add')}  
+              onClick={() => setPage('add')}
               tabIndex={page === 'add' ? 0 : -1}
               className={`px-4 py-2 text-center max-[416px]:w-full rounded-md border ${page === 'add' ? 'border-blue-600 text-blue-700' : 'border-green-600 text-green-700'} font-medium cursor-pointer transition-all duration-200 hover:bg-green-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-400`}
             >
               Add New Cards
             </div>
+            <div
+              onClick={handleLogout} 
+              className={`px-4 py-2 text-center max-[416px]:w-full rounded-md border ${page === 'add' ? 'border-blue-600 text-blue-700' : 'border-green-600 text-green-700'} font-medium cursor-pointer transition-all duration-200 hover:bg-green-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-400`}
+            >
+              Log Out
+            </div>
           </div>
         </div>
 
         <div className='w-full'>
-          {page === 'account' && <User />}  
-          {page === 'checkout' && <Checkout />} 
-          {page === 'add' && <AddProducts />}  
+          {page === 'account' && <User />}
+          {page === 'checkout' && <Checkout />}
+          {page === 'add' && <AddProducts />}
         </div>
       </div>
     </section>
