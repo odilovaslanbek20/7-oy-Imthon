@@ -304,7 +304,7 @@ function Cards() {
 								</div>
 
 								<img
-									src={card?.images[0]}
+									src={card?.images}
 									alt={card?.title}
 									className='w-full h-[200px] object-cover'
 								/>
