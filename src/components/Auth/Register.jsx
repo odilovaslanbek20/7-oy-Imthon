@@ -82,7 +82,7 @@ const AuthModal = ({ open, handleClose }) => {
 		<>
 			{notification.show && (
 				<div
-					className={`fixed z-50 top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg z-50 flex items-center justify-between min-w-[300px] max-w-md ${
+					className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-md shadow-lg z-50 flex items-center justify-between min-w-[300px] max-w-md ${
 						notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'
 					} text-white`}
 				>
