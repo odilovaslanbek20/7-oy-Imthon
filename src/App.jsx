@@ -29,7 +29,7 @@ function App() {
         }
       />
       <Route
-        path='/addNewCards'
+        path='/account'
         element={
           <ProtectedRoute>
             <Admen />

@@ -81,10 +81,10 @@ function AddProducts() {
 					</button>
 				</div>
 			)}
-			<section className='max-w-[1211px] m-auto max-[1270px]:mx-[20px]'>
+			<section className='max-w-[1211px] m-auto'>
 				<form
 					onSubmit={handleSubmit}
-					className='space-y-4 p-6 bg-white rounded-xl shadow border border-green-300'
+					className='space-y-4 p-6 max-[450px]:p-3 bg-white  rounded-xl shadow border border-green-300'
 				>
 					<h2 className='text-2xl font-bold text-green-600'>
 						Mahsulot ma'lumotlari

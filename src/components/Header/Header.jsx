@@ -72,7 +72,7 @@ function Header() {
 
 						{token ? (
 							<Link
-								to='/addNewCards'
+								to='/account'
 								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
 							>
 								<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
@@ -128,7 +128,7 @@ function Header() {
 
 					{token ? (
 						<Link
-							to='/addNewCards'
+							to='/account'
 							onClick={() => setMenu(false)}
 							className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
 						>

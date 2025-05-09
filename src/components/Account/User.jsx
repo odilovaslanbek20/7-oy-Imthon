@@ -31,13 +31,13 @@ function User() {
 		<section className='max-w-[1200px] mx-auto'>
 			<h2 className='text-3xl font-bold text-green-700 mb-6'>User List</h2>
 
-			<div className='grid  gap-6'>
+			<div className='grid gap-6'>
 				{users.map(user => (
 					<div
 						key={user?.id}
-						className='border border-green-500 rounded-lg p-6 shadow-md bg-white hover:shadow-lg transition-shadow duration-200'
+						className='border border-green-500 rounded-lg p-6 max-[360px]:p-3 shadow-md bg-white hover:shadow-lg transition-shadow duration-200'
 					>
-						<div className='flex items-center gap-4 mb-4'>
+						<div className='flex items-center gap-4 mb-4 max-[420px]:flex-col'>
 							<img
 								src={user?.image}
 								alt={user?.firstName}
