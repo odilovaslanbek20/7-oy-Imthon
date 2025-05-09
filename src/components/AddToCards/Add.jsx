@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import useGetData from '../../hooks/GetHooks'
+import { Link } from 'react-router-dom'
 
 const Add = () => {
 	const url = import.meta.env.VITE_API_URL
@@ -11,7 +11,6 @@ const Add = () => {
 	}
 
 	const [quantities, setQuantities] = useState({})
-	
 
 	useEffect(() => {
 		if (data?.carts?.length) {
@@ -140,7 +139,6 @@ const Add = () => {
 							</div>
 						))}
 
-						{/* Checkout */}
 						<div className='bg-white p-5 rounded-lg border-t-4 border-[#46A358]'>
 							<div className='flex justify-between items-center mb-2 text-gray-700'>
 								<span>Jami narx:</span>
@@ -160,10 +158,10 @@ const Add = () => {
 								<span>Umumiy summa:</span>
 								<span>${discountedTotal.toFixed(2)}</span>
 							</div>
-							<Link to="/account">
-								<button className='mt-4 w-full bg-[#46A358] text-white py-2 rounded-lg hover:bg-green-600 transition'>
-									To‘lovga o‘tish
-								</button>
+							<Link
+								to='/account'
+							>
+								<p className='w-full mt-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition text-center'>To'lovga o'tish...</p>
 							</Link>
 						</div>
 					</div>
