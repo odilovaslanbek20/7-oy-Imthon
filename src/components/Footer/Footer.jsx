@@ -13,17 +13,17 @@ function Footer() {
 					<div className="flex items-center justify-center max-[990px]:flex-col gap-[20px]">
 						<div className="w-[100%] grid grid-cols-3 max-[620px]:grid-cols-2 max-[620px]:items-center max-[620px]:justify-center max-[620px]:flex max-[620px]:flex-col max-[620px]:gap-[20px] py-[24px]">
 						<div className="px-[25px] border-r-1 border-[rgba(70,163,88,0.1)] max-[620px]:border-none">
-							<img className='w-[90px] h-[80px] mb-[10px]' src="../../../public/kakos.png" alt="kakos" />
+							<img className='w-[90px] h-[80px] mb-[10px]' src="kakos.png" alt="kakos" />
 							<h2 className='font-bold text-[17px] font-["Inter"] text-[rgba(61,61,61,1)]'>Garden Care</h2>
 							<p className='text-[14px] text-[rgba(114,114,114,1)] font-["Inter"] font-normal'>We are an online plant shop offering a wide range of cheap and trendy plants.</p>
 						</div>
 						<div className="px-[25px]">
-							<img className='w-[90px] h-[80px] mb-[10px]' src="../../../public/kaktus.png" alt="kakos" />
+							<img className='w-[90px] h-[80px] mb-[10px]' src="kaktus.png" alt="kakos" />
 							<h2 className='font-bold text-[17px] font-["Inter"] text-[rgba(61,61,61,1)]'>Plant Renovation</h2>
 							<p className='text-[14px] text-[rgba(114,114,114,1)] font-["Inter"] font-normal'>We are an online plant shop offering a wide range of cheap and trendy plants.</p>
 						</div>
 						<div className="px-[25px] border-l-1 border-[rgba(70,163,88,0.1)] max-[620px]:border-none">
-							<img className='w-[90px] h-[80px] mb-[10px]' src="../../../public/choynak.png" alt="kakos" />
+							<img className='w-[90px] h-[80px] mb-[10px]' src="choynak.png" alt="kakos" />
 							<h2 className='font-bold text-[17px] font-["Inter"] text-[rgba(61,61,61,1)]'>Watering Graden</h2>
 							<p className='text-[14px] text-[rgba(114,114,114,1)] font-["Inter"] font-normal'>We are an online plant shop offering a wide range of cheap and trendy plants.</p>
 						</div>

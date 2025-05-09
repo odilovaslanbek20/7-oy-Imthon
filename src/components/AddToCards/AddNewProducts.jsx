@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import usePostHooks from '../../hooks/PostHooks'
 
-const ProductForm = () => {
+function AddProducts() {
+
 	const [notification, setNotification] = useState(false)
 	const url = import.meta.env.VITE_API_URL
 	const { response, error, loading, postData } = usePostHooks()
@@ -80,7 +81,7 @@ const ProductForm = () => {
 					</button>
 				</div>
 			)}
-			<section className='max-w-[1211px] m-auto my-[50px] max-[1270px]:mx-[20px]'>
+			<section className='max-w-[1211px] m-auto max-[1270px]:mx-[20px]'>
 				<form
 					onSubmit={handleSubmit}
 					className='space-y-4 p-6 bg-white rounded-xl shadow border border-green-300'
@@ -149,4 +150,4 @@ const ProductForm = () => {
 	)
 }
 
-export default ProductForm
+export default AddProducts

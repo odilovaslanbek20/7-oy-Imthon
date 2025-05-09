@@ -4,8 +4,8 @@ import BlogPages from './pages/Blog/Blog'
 import DetailsPage from './pages/Details/Details'
 import AddToPages from './pages/AddTo/AddTo'
 import RegisterPage from './pages/AuthPage/Register'
-import AddNewPages from './pages/AddTo/NewProducts'
 import NotError from './pages/NotFaund/NotFaund'
+import Admen from './pages/Account/Admen'
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token') 
@@ -32,7 +32,7 @@ function App() {
         path='/addNewCards'
         element={
           <ProtectedRoute>
-            <AddNewPages />
+            <Admen />
           </ProtectedRoute>
         }
       />

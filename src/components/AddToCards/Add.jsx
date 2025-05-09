@@ -6,7 +6,12 @@ const Add = () => {
 	const url = import.meta.env.VITE_API_URL
 	const { data, loading, error } = useGetData(`${url}/carts?limit=1`)
 
+	if (data) {
+		localStorage.setItem('cart', JSON.stringify(data?.carts))
+	}
+
 	const [quantities, setQuantities] = useState({})
+	
 
 	useEffect(() => {
 		if (data?.carts?.length) {

@@ -11,6 +11,7 @@ function Header() {
 	const [token, setToken] = useState('')
 	const [name, setName] = useState('Login')
 
+	const carts = JSON.parse(localStorage.getItem('cart'))
 	useEffect(() => {
 		const checkLocalStorage = () => {
 			const tokenFromLocalStorage = localStorage.getItem('token')
@@ -36,47 +37,24 @@ function Header() {
 			<header className='max-[1270px]:mx-[20px] max-w-[1211px] m-auto mt-[25px] mb-[12px] pb-[18px] border-b-[1px] border-[rgba(70,163,88,0.5)]'>
 				<div className='flex items-center justify-between'>
 					<Link to='/'>
-						<img src='../../../public/Logo.svg' alt='logotip' className='w-[140px]' />
+						<img src='Logo.svg' alt='logotip' className='w-[140px]' />
 					</Link>
 
 					<div className='flex items-center gap-[50px] max-[670px]:hidden'>
-						{token ? (
-							<>
-								<Link
-									to='/'
-									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-								>
-									Home
-								</Link>
-								<Link
-									to='/blog'
-									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-								>
-									Blog
-								</Link>
-								<Link
-									to='/addNewCards'
-									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-								>
-									Add Products
-								</Link>
-							</>
-						) : (
-							<>
-								<Link
-									to='/'
-									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-								>
-									Home
-								</Link>
-								<Link
-									to='/blog'
-									className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-								>
-									Blog
-								</Link>
-							</>
-						)}
+						<>
+							<Link
+								to='/'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Home
+							</Link>
+							<Link
+								to='/blog'
+								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
+							>
+								Blog
+							</Link>
+						</>
 					</div>
 
 					<div className='flex items-center gap-[30px]'>
@@ -86,21 +64,33 @@ function Header() {
 						>
 							<div className='relative cursor-pointer'>
 								<p className='h-[12px] w-[12px] text-[10px] absolute ml-[12px] mt-[-3px] rounded-full flex items-center justify-center text-[#fff] bg-[rgba(70,163,88,1)]'>
-									3
+									{carts[0]?.products?.length}
 								</p>
 								<FiShoppingCart className='text-[20px]' />
 							</div>
 						</Link>
 
-						<div
-							onClick={() => setModalOpen(true)}
-							className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
-						>
-							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
-							<p className='text-[#fff] font-medium text-[16px] truncate'>
-								{token ? name : 'Login'}
-							</p>
-						</div>
+						{token ? (
+							<Link
+								to='/addNewCards'
+								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
+							>
+								<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+								<p className='text-[#fff] font-medium text-[16px] truncate'>
+									{name}
+								</p>
+							</Link>
+						) : (
+							<div
+								onClick={() => setModalOpen(true)}
+								className='w-[100px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer px-[8px] max-[670px]:hidden'
+							>
+								<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+								<p className='text-[#fff] font-medium text-[16px] truncate'>
+									Login
+								</p>
+							</div>
+						)}
 
 						<FaBarsStaggered
 							onClick={() => setMenu(true)}
@@ -123,54 +113,40 @@ function Header() {
 				/>
 
 				<div className='flex flex-col items-center mt-[50px] gap-[20px]'>
-					{token ? (
-						<>
-							<Link
-								to='/'
-								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-							>
-								Home
-							</Link>
-							<Link
-								to='/blog'
-								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-							>
-								Blog
-							</Link>
-							<Link
-								to='/addNewCards'
-								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-							>
-								Add Products
-							</Link>
-						</>
-					) : (
-						<>
-							<Link
-								to='/'
-								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-							>
-								Home
-							</Link>
-							<Link
-								to='/blog'
-								className='text-[16px] font-normal hover:text-[rgba(70,163,88,1)]'
-							>
-								Blog
-							</Link>
-						</>
-					)}
-
-					<div
-						onClick={() => {
-							setMenu(false)
-							setModalOpen(true)
-						}}
-						className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
+					<Link
+						to='/'
+						className='text-[16px] text-[#fff] font-normal hover:text-[rgba(70,163,88,1)]'
 					>
-						<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
-						<p className='text-[#fff] truncate'>{token ? name : 'Login'}</p>
-					</div>
+						Home
+					</Link>
+					<Link
+						to='/blog'
+						className='text-[16px] text-[#fff] font-normal hover:text-[rgba(70,163,88,1)]'
+					>
+						Blog
+					</Link>
+
+					{token ? (
+						<Link
+							to='/addNewCards'
+							onClick={() => setMenu(false)}
+							className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
+						>
+							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+							<p className='text-[#fff] truncate'>{name}</p>
+						</Link>
+					) : (
+						<div
+							onClick={() => {
+								setMenu(false)
+								setModalOpen(true)
+							}}
+							className='w-[150px] h-[35px] bg-[rgba(70,163,88,1)] rounded-[6px] flex items-center justify-center gap-1 cursor-pointer'
+						>
+							<RiLogoutCircleRLine className='text-[20px] text-[#fff]' />
+							<p className='text-[#fff] truncate'>Login</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
