@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddProducts from '../AddToCards/AddNewProducts';
-// import Checkout from './Checout';
+import Checkout from './Checout';
 import User from './User';
 
 function Account() {
@@ -52,7 +52,7 @@ function Account() {
 
         <div className='w-full'>
           {page === 'account' && <User />}
-          {/* {page === 'checkout' && <Checkout />} */}
+          {page === 'checkout' && <Checkout />}
           {page === 'add' && <AddProducts />}
         </div>
       </div>
