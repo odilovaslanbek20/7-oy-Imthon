@@ -4,6 +4,7 @@ import usePostHooks from '../../hooks/PostHooks'
 function AddProducts() {
 
 	const [notification, setNotification] = useState(false)
+	const [errorMessages, setErrorMessages] = useState({})
 	const url = import.meta.env.VITE_API_URL
 	const { response, error, loading, postData } = usePostHooks()
 
@@ -22,6 +23,18 @@ function AddProducts() {
 
 	const handleSubmit = async e => {
 		e.preventDefault()
+
+		let errors = {}
+		if (!formData.title) errors.title = 'Nomi bo\'sh bo\'lmasligi kerak'
+		if (!formData.description) errors.description = 'Tavsif bo\'sh bo\'lmasligi kerak'
+		if (!formData.price) errors.price = 'Narxni kiriting'
+		if (!formData.image) errors.image = 'Rasm URL manzili kiriting'
+		if (!formData.brand) errors.brand = 'Brendni kiriting'
+
+		if (Object.keys(errors).length > 0) {
+			setErrorMessages(errors)
+			return
+		}
 
 		const preparedData = {
 			...formData,
@@ -95,17 +108,21 @@ function AddProducts() {
 						name='title'
 						placeholder='Nomi'
 						onChange={handleChange}
-						required
 						className='w-full p-2 border border-green-400 rounded focus:outline-none focus:ring-2 focus:ring-green-500'
 					/>
+					{errorMessages.title && (
+						<p className='text-red-600 text-sm'>{errorMessages.title}</p>
+					)}
 
 					<textarea
 						name='description'
 						placeholder='Tavsif'
 						onChange={handleChange}
-						required
 						className='w-full p-2 border border-green-400 rounded focus:outline-none focus:ring-2 focus:ring-green-500'
 					></textarea>
+					{errorMessages.description && (
+						<p className='text-red-600 text-sm'>{errorMessages.description}</p>
+					)}
 
 					<input
 						type='number'
@@ -113,27 +130,33 @@ function AddProducts() {
 						name='price'
 						placeholder='Narx ($)'
 						onChange={handleChange}
-						required
 						className='w-full p-2 border border-green-400 rounded focus:outline-none focus:ring-2 focus:ring-green-500'
 					/>
+					{errorMessages.price && (
+						<p className='text-red-600 text-sm'>{errorMessages.price}</p>
+					)}
 
 					<input
 						type='url'
 						name='image'
 						placeholder='Rasm URL'
 						onChange={handleChange}
-						required
 						className='w-full p-2 border border-green-400 rounded focus:outline-none focus:ring-2 focus:ring-green-500'
 					/>
+					{errorMessages.image && (
+						<p className='text-red-600 text-sm'>{errorMessages.image}</p>
+					)}
 
 					<input
 						type='text'
 						name='brand'
 						placeholder='Brend'
 						onChange={handleChange}
-						required
 						className='w-full p-2 border border-green-400 rounded focus:outline-none focus:ring-2 focus:ring-green-500'
 					/>
+					{errorMessages.brand && (
+						<p className='text-red-600 text-sm'>{errorMessages.brand}</p>
+					)}
 
 					<button
 						disabled={loading}
