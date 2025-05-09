@@ -30,8 +30,6 @@ function Cards() {
 	const cards = data?.products || []
 
 	const { response, error: error2, postData } = usePostHooks()
-
-	console.log(data);
 	
 
 	const handleClick = async id => {

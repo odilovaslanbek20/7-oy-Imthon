@@ -1,10 +1,22 @@
 import React from 'react'
 
 function Checkout() {
-	const order = JSON.parse(localStorage.getItem('cart'))
+	const cartData = localStorage.getItem('cart')
+	let order = null
+
+	try {
+		order = JSON.parse(cartData)
+	} catch (e) {
+		console.error('Invalid JSON in localStorage:', e)
+	}
+
 	if (!order) {
 		return <div>No items in the cart.</div>
 	}
+
+	const orderProducts = Array.isArray(order)
+		? order[0]?.products || []
+		: order?.products || []
 
 	return (
 		<div className='flex max-w-6xl mx-auto gap-[24px] max-[800px]:flex-col'>
@@ -97,10 +109,17 @@ function Checkout() {
 			<div className='bg-white p-6 max-[450px]:p-0 max-[450px]:shadow-none rounded-lg shadow-md '>
 				<h2 className='text-xl font-semibold mb-4'>Your Order</h2>
 				<div className='divide-y'>
-					{order[0]?.products?.map(product => (
-						<div key={product.id} className='flex items-start gap-[20px] justify-between py-2'>
-							 <img className='w-[70px] h-[70px] bg-contain' src={product?.thumbnail} alt={product?.title} />
-							<div className=''>
+					{orderProducts.map(product => (
+						<div
+							key={product.id}
+							className='flex items-start gap-[20px] justify-between py-2'
+						>
+							<img
+								className='w-[70px] h-[70px] bg-contain'
+								src={product?.thumbnail}
+								alt={product?.title}
+							/>
+							<div>
 								<span>{`${product?.title} (x${product?.quantity})`}</span>
 								<span className='font-semibold'>
 									${product.total.toFixed(2)}
@@ -113,7 +132,7 @@ function Checkout() {
 				<div className='mt-4'>
 					<div className='flex justify-between'>
 						<span>Subtotal</span>
-						<span>${order?.discountedTotal?.toFixed(2)}</span>
+						<span>${order?.discountedTotal?.toFixed(2) || '0.00'}</span>
 					</div>
 					<div className='flex justify-between'>
 						<span>Coupon Discount</span>
@@ -121,11 +140,11 @@ function Checkout() {
 					</div>
 					<div className='flex justify-between'>
 						<span>Shipping</span>
-						<span>$16.00</span>{' '}
+						<span>$16.00</span>
 					</div>
 					<div className='flex justify-between font-semibold border-t mt-2 pt-2'>
 						<span>Total</span>
-						<span>${order?.total?.toFixed(2)}</span>
+						<span>${order?.total?.toFixed(2) || '0.00'}</span>
 					</div>
 				</div>
 
