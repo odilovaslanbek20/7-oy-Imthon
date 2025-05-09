@@ -35,7 +35,7 @@ function CardsDetails() {
       <div className='flex max-[900px]:flex-col gap-10'>
         <div className='flex rounded-md shadow-md justify-center'>
           <img
-            src={data?.images[0]}
+            src={data?.images}
             alt='Main Product'
             className='w-[573px] h-auto bg-contain'
           />
