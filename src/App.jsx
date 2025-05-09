@@ -3,9 +3,10 @@ import HomePages from './pages/Home/Home'
 import BlogPages from './pages/Blog/Blog'
 import DetailsPage from './pages/Details/Details'
 import AddToPages from './pages/AddTo/AddTo'
-import RegisterPage from './pages/AuthPage/Register'
 import NotError from './pages/NotFaund/NotFaund'
 import Admen from './pages/Account/Admen'
+import Footer from './components/Footer/Footer'
+import Header from './components/Header/Header'
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token') 
@@ -14,31 +15,36 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <Routes>
-      <Route path='/' element={<HomePages />} />
-      <Route path='/blog' element={<BlogPages />} />
-      <Route path='/products/:id' element={<DetailsPage />} />
-      <Route path='/auth' element={<RegisterPage />} />
+    <>
+      <Header /> 
+      
+      <Routes>
+        <Route path='/' element={<HomePages />} />
+        <Route path='/blog' element={<BlogPages />} />
+        <Route path='/products/:id' element={<DetailsPage />} />
 
-      <Route
-        path='/addCards'
-        element={
-          <ProtectedRoute>
-            <AddToPages />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path='/account'
-        element={
-          <ProtectedRoute>
-            <Admen />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path='/addCards'
+          element={
+            <ProtectedRoute>
+              <AddToPages />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/account'
+          element={
+            <ProtectedRoute>
+              <Admen />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route path='*' element={<NotError />} />
-    </Routes>
+        <Route path='*' element={<NotError />} />
+      </Routes>
+
+      <Footer /> 
+    </>
   )
 }
 
