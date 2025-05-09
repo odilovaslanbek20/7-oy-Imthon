@@ -31,14 +31,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path='/account'
           element={
             <ProtectedRoute>
               <Admen />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route path='*' element={<NotError />} />
       </Routes>
