@@ -118,21 +118,21 @@ function Footer() {
 								{t('media')}
 							</h2>
 							<div className='flex items-center gap-[10px] mb-[30px]'>
-								<div className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
+								<a href='https://www.facebook.com/' className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
 									<FaFacebookF className='text-[rgba(70,163,88,0.6)]' />
-								</div>
-								<div className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
+								</a>
+								<a href='https://www.instagram.com/aslanbek8987/' className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
 									<FaInstagram className='text-[rgba(70,163,88,0.6)]' />
-								</div>
+								</a>
 								<div className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
 									<FaTwitter className='text-[rgba(70,163,88,0.6)]' />
 								</div>
-								<div className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
+								<a href='https://www.linkedin.com/' className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
 									<FaLinkedinIn className='text-[rgba(70,163,88,0.6)]' />
-								</div>
-								<div className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
+								</a>
+								<a href='https://www.youtube.com/' className='min-w-[30px] cursor-pointer min-h-[30px] rounded border-1 border-[rgba(70,163,88,0.6)] flex items-center justify-center'>
 									<FaYoutube className='text-[rgba(70,163,88,0.6)]' />
-								</div>
+								</a>
 							</div>
 							<h2 className='text-[rgba(61,61,61,1)] font-bold font-["Inter"] text-[18px] max-[342px]:text-[16px]  mb-[13px]'>
 								{t('accept')}
